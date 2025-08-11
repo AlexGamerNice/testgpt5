@@ -1,12 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pokémon Chess</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html>
+<head>
+    <title>Hyperdimensional Year Prediction Engine™</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0e0e0e; color: #00ffcc; text-align: center; padding: 2em; }
+        h1 { font-size: 2.5em; }
+        .container { max-width: 600px; margin: auto; }
+        input { padding: 0.5em; font-size: 1em; border: none; border-radius: 5px; }
+        button { padding: 0.5em 1em; font-size: 1em; background: #00ffcc; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #00ccaa; }
+        .loading { font-family: monospace; white-space: pre; text-align: left; background: #111; padding: 1em; border-radius: 5px; margin-top: 1em; }
+        .bar-container { background: #222; border-radius: 5px; overflow: hidden; height: 20px; margin-top: 5px; }
+        .bar { background: #00ffcc; height: 100%; width: 0%; transition: width 0.1s; }
+        .result { margin-top: 2em; font-size: 1.5em; color: #ffcc00; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔮 Hyperdimensional Year Prediction Engine™</h1>
+        <form id="year-form">
+            <input type="number" id="year-input" placeholder="Enter a year" required>
+            <button type="submit">Predict</button>
+        </form>
+        <div id="loading-area" class="loading"></div>
+        <div id="result-box" class="result"></div>
+    </div>
+
+    <script>
+        function simulateBars(steps, resultText) {
+            const container = document.getElementById('loading-area');
+            const resultBox = document.getElementById('result-box');
+            resultBox.style.display = 'none';
+            container.innerHTML = '';
+            let i = 0;
+
+            function nextStep() {
+                if (i >= steps.length) {
+                    resultBox.textContent = resultText;
+                    resultBox.style.display = 'block';
+                    return;
+                }
+                const step = steps[i];
+                const stepDiv = document.createElement('div');
+                stepDiv.textContent = `[PROCESS] ${step}...`;
+                const barContainer = document.createElement('div');
+                barContainer.className = 'bar-container';
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                barContainer.appendChild(bar);
+                stepDiv.appendChild(barContainer);
+                container.appendChild(stepDiv);
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.floor(Math.random() * 10) + 1;
+                    if (progress > 100) progress = 100;
+                    bar.style.width = progress + '%';
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            stepDiv.remove();
+                            i++;
+                            setTimeout(nextStep, 300);
+                        }, 500);
+                    }
+                }, Math.floor(Math.random() * 150) + 50);
+            }
+            nextStep();
+        }
+
+        function simulateProcess(year) {
+            const steps = [
+                "Boot sequence",
+                "Calibrating temporal flux capacitor",
+                "Engaging quantum time crystal",
+                "Aligning planetary neural networks",
+                "Tuning AI predictive synapses",
+                "Gathering astronomical alignment data",
+                "Running recursive deep dream simulations",
+                "Applying multi-layered hyper-matrix transformation",
+                "Spinning up Schrödinger's Predictive Cat"
+            ];
+            let meaningless_number = Math.sin(Math.random() * Math.PI) * Math.random();
+            steps.push(`[ANALYSIS] Computed meaningless coefficient: ${meaningless_number.toFixed(8)}`);
+            const predicted_year = parseInt(year) + 1;
+            return [steps, `The year after ${year} will be... ${predicted_year}!`];
+        }
+
+        document.getElementById('year-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const year = document.getElementById('year-input').value || new Date().getFullYear();
+            const [logs, result] = simulateProcess(year);
+            simulateBars(logs, result);
+        });
+    </script>
+</body>
 </html>
